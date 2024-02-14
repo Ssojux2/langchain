@@ -7,7 +7,7 @@ from langchain.pydantic_v1 import Field, root_validator
 from langchain.tools.base import BaseTool
 
 if TYPE_CHECKING:
-    from transformers import Pipeline
+    from transformers import pipeline
 
 
 class PromptInjectionException(ValueError):
@@ -22,7 +22,7 @@ class PromptInjectionException(ValueError):
 
 def _model_default_factory(
     model_name: str = "laiyer/deberta-v3-base-prompt-injection",
-) -> Pipeline:
+) -> pipeline:
     try:
         from transformers import (
             AutoModelForSequenceClassification,
@@ -56,7 +56,7 @@ class HuggingFaceInjectionIdentifier(BaseTool):
         "Useful for when you need to ensure that prompt is free of injection attacks. "
         "Input should be any message from the user."
     )
-    model: Union[Pipeline, str, None] = Field(default_factory=_model_default_factory)
+    model: Union[pipeline, str, None] = Field(default_factory=_model_default_factory)
     """Model to use for prompt injection detection. 
     
     Can be specified as transformers Pipeline or string. String should correspond to the
